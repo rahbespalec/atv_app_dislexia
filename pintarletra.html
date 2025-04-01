@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alfabetização - Letra A</title>
+    <style>
+        :root {
+            --cor-primaria: #0066cc;
+            --cor-secundaria: #ff6600;
+            --cor-fundo: #f0f8ff;
+            --cor-texto: #333;
+        }
+        
+        * {
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Arial', sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--cor-fundo);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--cor-primaria), var(--cor-secundaria));
+            color: white;
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .container {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+        }
+        
+        .instrucao {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .instrucao p {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+        
+        .letra-container {
+            position: relative;
+            width: 300px;
+            height: 320px;
+            margin: 10px auto;
+            border: 2px dashed rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: white;
+        }
+        
+        .letra-svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .circulo {
+            cursor: pointer;
+            transition: fill 0.3s;
+            stroke: #999;
+            stroke-width: 1;
+        }
+        
+        .cores-paleta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 15px 0;
+            width: 100%;
+        }
+        
+        .cor {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 5px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+        
+        .cor:hover, .cor.selecionada {
+            transform: scale(1.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .botoes {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        button {
+            background-color: var(--cor-primaria);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        
+        button img {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+        
+        button:hover {
+            background-color: var(--cor-secundaria);
+            transform: scale(1.05);
+        }
+        
+        .falar {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: var(--cor-secundaria);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            color: white;
+            font-size: 16px;
+        }
+        
+        .parabens {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.7);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .parabens-conteudo {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .parabens h2 {
+            color: var(--cor-secundaria);
+            font-size: 2rem;
+        }
+        
+        .parabens button {
+            margin-top: 20px;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: confetti-fall 3s ease-in-out forwards;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                opacity: 1;
+                transform: translateY(-100vh) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+        
+        /* Media Queries para Responsividade */
+        @media (max-width: 600px) {
+            .letra-container {
+                width: 250px;
+                height: 270px;
+            }
+            
+            .cor {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .instrucao p {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .letra-container {
+                width: 220px;
+                height: 240px;
+            }
+            
+            .cor {
+                width: 30px;
+                height: 30px;
+                margin: 3px;
+            }
+            
+            button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Pinte a letra</h1>
+    </header>
+    
+    <div class="container">
+        <div class="instrucao">
+            <p>Pinte as bolinhas da letra A com cores diferentes.</p>
+            <button class="falar" id="falarInstrucao">🔊</button>
+        </div>
+        
+        <div class="letra-container">
+            <svg class="letra-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Apenas as bolinhas formando a letra A - sem contorno -->
+                
+                <!-- Topo da letra A (ponta) -->
+                <circle id="circulo1" class="circulo" cx="200" cy="50" r="18" fill="white"/>
+                
+                <!-- Lado esquerdo descendo -->
+                <circle id="circulo2" class="circulo" cx="180" cy="80" r="18" fill="white"/>
+                <circle id="circulo3" class="circulo" cx="160" cy="110" r="18" fill="white"/>
+                <circle id="circulo4" class="circulo" cx="140" cy="140" r="18" fill="white"/>
+                <circle id="circulo5" class="circulo" cx="120" cy="170" r="18" fill="white"/>
+                <circle id="circulo6" class="circulo" cx="100" cy="200" r="18" fill="white"/>
+                <circle id="circulo7" class="circulo" cx="80" cy="230" r="18" fill="white"/>
+                <circle id="circulo8" class="circulo" cx="60" cy="260" r="18" fill="white"/>
+                <circle id="circulo9" class="circulo" cx="40" cy="290" r="18" fill="white"/>
+                
+                <!-- Lado direito descendo -->
+                <circle id="circulo11" class="circulo" cx="220" cy="80" r="18" fill="white"/>
+                <circle id="circulo12" class="circulo" cx="240" cy="110" r="18" fill="white"/>
+                <circle id="circulo13" class="circulo" cx="260" cy="140" r="18" fill="white"/>
+                <circle id="circulo14" class="circulo" cx="280" cy="170" r="18" fill="white"/>
+                <circle id="circulo15" class="circulo" cx="300" cy="200" r="18" fill="white"/>
+                <circle id="circulo16" class="circulo" cx="320" cy="230" r="18" fill="white"/>
+                <circle id="circulo17" class="circulo" cx="340" cy="260" r="18" fill="white"/>
+                <circle id="circulo18" class="circulo" cx="360" cy="290" r="18" fill="white"/>
+                
+                <!-- Barra horizontal no meio da letra A -->
+                <circle id="circulo20" class="circulo" cx="140" cy="200" r="18" fill="white"/>
+                <circle id="circulo21" class="circulo" cx="170" cy="200" r="18" fill="white"/>
+                <circle id="circulo22" class="circulo" cx="200" cy="200" r="18" fill="white"/>
+                <circle id="circulo23" class="circulo" cx="230" cy="200" r="18" fill="white"/>
+                <circle id="circulo24" class="circulo" cx="260" cy="200" r="18" fill="white"/>
+            </svg>
+        </div>
+        
+        <div class="cores-paleta">
+            <div class="cor" style="background-color: #FF0000;" data-cor="#FF0000"></div> <!-- Vermelho -->
+            <div class="cor" style="background-color: #FF7F00;" data-cor="#FF7F00"></div> <!-- Laranja -->
+            <div class="cor" style="background-color: #FFFF00;" data-cor="#FFFF00"></div> <!-- Amarelo -->
+            <div class="cor" style="background-color: #00FF00;" data-cor="#00FF00"></div> <!-- Verde -->
+            <div class="cor" style="background-color: #0000FF;" data-cor="#0000FF"></div> <!-- Azul -->
+            <div class="cor" style="background-color: #4B0082;" data-cor="#4B0082"></div> <!-- Índigo -->
+            <div class="cor" style="background-color: #9400D3;" data-cor="#9400D3"></div> <!-- Violeta -->
+            <div class="cor" style="background-color: #FF1493;" data-cor="#FF1493"></div> <!-- Rosa -->
+        </div>
+        
+        <div class="botoes">
+            <button id="limpar">🧹 Limpar</button>
+            <button id="ouvir">🔊 Ouvir Letra</button>
+            <button id="exemplo">👁️ Ver Exemplo</button>
+        </div>
+    </div>
+    
+    <div class="parabens" id="parabens">
+        <div class="parabens-conteudo">
+            <h2>Parabéns!</h2>
+            <p>Você pintou todas as bolinhas da letra A!</p>
+            <p>Veja como a letra ficou bonita e colorida!</p>
+            <button id="continuar">Continuar</button>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar síntese de voz
+            const synth = window.speechSynthesis;
+            let corSelecionada = null;
+            let circulosPintados = 0;
+            const totalCirculos = document.querySelectorAll('.circulo').length;
+            // Total de círculos agora é 28 ao invés de 32 (removidas 4 bolinhas da base)
+            
+            // Selecionar elementos
+            const cores = document.querySelectorAll('.cor');
+            const circulos = document.querySelectorAll('.circulo');
+            const botaoLimpar = document.getElementById('limpar');
+            const botaoOuvir = document.getElementById('ouvir');
+            const botaoExemplo = document.getElementById('exemplo');
+            const botaoFalarInstrucao = document.getElementById('falarInstrucao');
+            const modalParabens = document.getElementById('parabens');
+            const botaoContinuar = document.getElementById('continuar');
+            
+            // Função para falar texto
+            function falar(texto) {
+                if (synth.speaking) {
+                    synth.cancel();
+                }
+                
+                const utterance = new SpeechSynthesisUtterance(texto);
+                utterance.lang = 'pt-BR';
+                utterance.volume = 1;
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                
+                synth.speak(utterance);
+            }
+            
+            // Seleção de cor
+            cores.forEach(cor => {
+                cor.addEventListener('click', function() {
+                    const corAnterior = document.querySelector('.cor.selecionada');
+                    if (corAnterior) {
+                        corAnterior.classList.remove('selecionada');
+                    }
+                    
+                    this.classList.add('selecionada');
+                    corSelecionada = this.dataset.cor;
+                    
+                    // Falar nome da cor
+                    let nomeCor = '';
+                    switch(corSelecionada) {
+                        case '#FF0000': nomeCor = 'Vermelho'; break;
+                        case '#FF7F00': nomeCor = 'Laranja'; break;
+                        case '#FFFF00': nomeCor = 'Amarelo'; break;
+                        case '#00FF00': nomeCor = 'Verde'; break;
+                        case '#0000FF': nomeCor = 'Azul'; break;
+                        case '#4B0082': nomeCor = 'Índigo'; break;
+                        case '#9400D3': nomeCor = 'Violeta'; break;
+                        case '#FF1493': nomeCor = 'Rosa'; break;
+                    }
+                    falar(nomeCor);
+                });
+            });
+            
+            // Pintar círculos
+            circulos.forEach(circulo => {
+                circulo.addEventListener('click', function() {
+                    if (corSelecionada) {
+                        // Verificar se o círculo já está pintado com outra cor diferente de branco
+                        if (this.getAttribute('fill') === 'white') {
+                            this.setAttribute('fill', corSelecionada);
+                            circulosPintados++;
+                            
+                            // Verificar se todos os círculos foram pintados
+                            if (circulosPintados === totalCirculos) {
+                                setTimeout(mostrarParabens, 500);
+                            }
+                        } else {
+                            // Permitir alterar a cor mesmo que já esteja pintado
+                            this.setAttribute('fill', corSelecionada);
+                        }
+                    } else {
+                        falar('Escolha uma cor primeiro');
+                    }
+                });
+            });
+            
+            // Exemplo rápido
+            botaoExemplo.addEventListener('click', function() {
+                // Array de cores para exemplo
+                const coresExemplo = [
+                    '#FF0000', '#FF7F00', '#FFFF00', '#00FF00', 
+                    '#0000FF', '#4B0082', '#9400D3', '#FF1493'
+                ];
+                
+                // Mostrar brevemente como seria com cores
+                circulos.forEach((circulo, index) => {
+                    const corIndex = index % coresExemplo.length;
+                    circulo.setAttribute('fill', coresExemplo[corIndex]);
+                });
+                
+                falar('Este é um exemplo de como a letra A fica quando colorida.');
+                
+                // Voltar ao estado original após 3 segundos
+                setTimeout(() => {
+                    circulos.forEach(circulo => {
+                        circulo.setAttribute('fill', 'white');
+                    });
+                    circulosPintados = 0;
+                }, 3000);
+            });
+            
+            // Limpar todas as cores
+            botaoLimpar.addEventListener('click', function() {
+                circulos.forEach(circulo => {
+                    circulo.setAttribute('fill', 'white');
+                });
+                circulosPintados = 0;
+                falar('Tudo limpo! Vamos começar de novo.');
+            });
+            
+            // Ouvir a letra A
+            botaoOuvir.addEventListener('click', function() {
+                falar('A. A de Avião, Abelha, Árvore, Abacaxi.');
+            });
+            
+            // Falar a instrução
+            botaoFalarInstrucao.addEventListener('click', function() {
+                falar(document.querySelector('.instrucao p').textContent);
+            });
+            
+            // Mostrar modal de parabéns
+            function mostrarParabens() {
+                modalParabens.style.display = 'flex';
+                falar('Parabéns! Você pintou todas as bolinhas da letra A! Veja como a letra ficou bonita e colorida!');
+                
+                // Criar confete
+                for (let i = 0; i < 50; i++) {
+                    criarConfete();
+                }
+            }
+            
+            // Criar elemento de confete
+            function criarConfete() {
+                const confete = document.createElement('div');
+                confete.classList.add('confetti');
+                
+                // Posição aleatória
+                const posX = Math.random() * window.innerWidth;
+                
+                // Cor aleatória
+                const cores = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#0000FF', '#4B0082', '#9400D3', '#FF1493'];
+                const corAleatoria = cores[Math.floor(Math.random() * cores.length)];
+                
+                confete.style.left = posX + 'px';
+                confete.style.backgroundColor = corAleatoria;
+                confete.style.animationDelay = Math.random() * 3 + 's';
+                
+                modalParabens.appendChild(confete);
+                
+                // Remover confete após a animação
+                setTimeout(() => {
+                    confete.remove();
+                }, 3000);
+            }
+            
+            // Fechar modal e reiniciar
+            botaoContinuar.addEventListener('click', function() {
+                modalParabens.style.display = 'none';
+                circulos.forEach(circulo => {
+                    circulo.setAttribute('fill', 'white');
+                });
+                circulosPintados = 0;
+                falar('Vamos continuar praticando!');
+            });
+            
+            // Falar instrução ao carregar a página
+            setTimeout(() => {
+                falar('Pinte as bolinhas da letra A com cores diferentes.');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
